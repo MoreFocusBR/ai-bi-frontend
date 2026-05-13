@@ -1,9 +1,9 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button } from '../../components/ui/button';
-import { ArrowRight, Bot } from 'lucide-react';
+import { ArrowRight, Bot, AlertCircle } from 'lucide-react';
 
 export function LoginPage() {
-  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, isLoading, error } = useAuth0();
 
   if (isLoading) return <div className="flex h-screen items-center justify-center">Carregando...</div>;
   if (isAuthenticated) {
@@ -21,6 +21,17 @@ export function LoginPage() {
           <h2 className="text-3xl font-bold tracking-tight">AI BI Portal</h2>
           <p className="mt-2 text-muted-foreground">Plataforma Agêntica Operacional</p>
         </div>
+
+        {error && (
+          <div className="rounded-md bg-destructive/15 p-4 text-sm text-destructive flex items-center gap-3 text-left">
+            <AlertCircle className="h-5 w-5 shrink-0" />
+            <div>
+              <p className="font-semibold">Erro de Autenticação</p>
+              <p className="text-xs mt-1">{error.message}</p>
+            </div>
+          </div>
+        )}
+
         <Button 
           size="lg" 
           className="w-full text-base font-semibold" 

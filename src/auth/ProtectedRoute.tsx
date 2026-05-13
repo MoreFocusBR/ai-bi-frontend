@@ -1,14 +1,14 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
   
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      loginWithRedirect();
-    }
-  }, [isLoading, isAuthenticated, loginWithRedirect]);
+    // If not authenticated, we don't automatically redirect to Auth0 here.
+    // The <Navigate to="/login" /> below will handle it.
+  }, [isLoading, isAuthenticated]);
 
   if (isLoading) {
     return (
@@ -18,6 +18,8 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
     );
   }
   
-  if (!isAuthenticated) return null;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
   return <>{children}</>;
 }

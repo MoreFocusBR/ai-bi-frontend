@@ -4,17 +4,19 @@ import { StatusBadge } from '../../components/data/StatusBadge';
 import { Input } from '../../components/ui/input';
 import { Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { CreateWorkOrderModal } from '../../components/forms/CreateWorkOrderModal';
 
 export function WorkOrdersPage() {
   const { data, isLoading } = useWorkOrders({ limit: 50 });
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Ordens de Serviço</h1>
           <p className="text-muted-foreground">Monitoramento de manutenção e facilities.</p>
         </div>
+        <CreateWorkOrderModal />
       </div>
 
       <div className="flex items-center justify-between">

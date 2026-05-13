@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '../api/client';
 import type { WorkOrder } from '../types/work_order';
 
@@ -18,6 +18,19 @@ export function useWorkOrders(params?: UseWorkOrdersParams) {
       return data;
     },
     staleTime: 1000 * 60 * 5, // 5 minutos
+  });
+}
+
+export function useCreateWorkOrder() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (newWO: Partial<WorkOrder>) => {
+      const { data } = await apiClient.post('/api/v1/work_orders/', newWO);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['work_orders'] });
+    },
   });
 }
 

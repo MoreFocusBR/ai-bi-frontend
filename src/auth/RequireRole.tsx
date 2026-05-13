@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuthStore } from '../store/useAuthStore';
 
-export function RequireRole({ role, children }: { role: string; children: React.ReactNode }) {
+export function RequireRole({ children, role }: { children: React.ReactNode; role: string }) {
   const roles = useAuthStore(state => state.roles);
   const isAdmin = useAuthStore(state => state.isAdmin());
   
